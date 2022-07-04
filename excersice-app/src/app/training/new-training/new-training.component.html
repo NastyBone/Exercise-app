@@ -1,0 +1,30 @@
+<section class="new-training" fxLayout fxLayoutAlign="center">
+
+  <mat-card fxFlex="35%" fxFlex.lt-sm="100%" >
+    <form #f="ngForm" (ngSubmit)="emitTraining(f)" *ngIf="!loadingState && exercises">
+    <mat-card-title fxLayoutAlign="center">New Training</mat-card-title>
+    <mat-card-content fxLayoutAlign="center">
+
+      <mat-form-field>
+      <mat-label>Select your excersice</mat-label>
+      <mat-select matNativeControl required ngModel name="select">
+        <mat-option *ngFor="let excersice of exercises ; let i = index" [value]="excersice.id">{{excersice.name}}</mat-option>
+        <!-- <mat-option value="crunches">Crunches</mat-option>
+        <mat-option value="touch-toes">Touch Toes</mat-option>
+        <mat-option value="side-lunge">Side Lunge</mat-option>
+        <mat-option value="burpees">Burpees</mat-option> -->
+      </mat-select>
+    </mat-form-field>
+
+  </mat-card-content>
+    <mat-card-actions fxLayoutAlign="center">
+      <button mat-raised-button
+      color="primary" [disabled]="f.invalid">Start</button>
+    </mat-card-actions>
+    </form>
+    <button mat-raised-button
+    color="primary" *ngIf="!exercises" (click)="getExercises()">Try Again</button>
+    <mat-spinner *ngIf="loadingState" style="margin: auto;"></mat-spinner>
+  </mat-card>
+
+</section>

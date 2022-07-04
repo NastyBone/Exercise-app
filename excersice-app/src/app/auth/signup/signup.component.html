@@ -1,0 +1,31 @@
+<section class="signup-form">
+  <form  fxLayout="column" fxLayoutAlign="center center" #form="ngForm" (ngSubmit)="onSubmit(form)" fxLayoutGap="3px">
+    <mat-form-field>
+      <input type="email" name="email" matInput placeholder="Email" ngModel email required #emailInput="ngModel">
+      <mat-error *ngIf="emailInput.hasError('required')">Cannot be empty</mat-error>
+      <mat-error *ngIf="!emailInput.hasError('required')">Email not valid</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="password" name="password" matInput placeholder="Password" ngModel required minlength="6" #pwInput="ngModel">
+      <mat-hint>Should be at least 6 characters long</mat-hint>
+      <mat-hint align="end">{{pwInput.value.length }} / 6</mat-hint>
+      <mat-error *ngIf="pwInput.value?.length < 6 && !pwInput.hasError('required')">Password length not valid</mat-error>
+    <mat-error *ngIf="pwInput.hasError('required')">Cannot be empty</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" [max]="maxDate" required
+      #dateInput="ngModel" ngModel name="date">
+      <mat-hint align="end">DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-hint>You must be older than 18 years old to sign up</mat-hint>
+      <mat-error *ngIf="dateInput.hasError('required')">Cannot be empty</mat-error>
+    </mat-form-field>
+    <br>
+    <mat-checkbox ngModel name="agree" color="primary" required>Agree With the terms of services</mat-checkbox>
+      <button *ngIf="!loadingState" mat-raised-button type="submit" color="primary"  class="submit-button" [disabled]="form.invalid">Sign Up</button>
+      <mat-spinner *ngIf="loadingState"></mat-spinner>
+  </form>
+</section>
+

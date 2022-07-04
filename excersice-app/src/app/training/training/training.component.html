@@ -1,0 +1,5 @@
+<mat-tab-group mat-stretch-tabs *ngIf="!isTraining">
+  <mat-tab label="New Excercise"> <app-new-training  (trainingEmmiter)="onTraining()"></app-new-training> </mat-tab>
+  <mat-tab label="Past Excercise"> <app-past-training></app-past-training></mat-tab>
+</mat-tab-group>
+<app-current-training *ngIf="isTraining"></app-current-training>

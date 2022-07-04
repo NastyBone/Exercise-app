@@ -1,0 +1,9 @@
+<mat-sidenav-container class="example-container">
+  <mat-sidenav mode="over" role="toolbar" #sidebar >
+    <app-sidenav-list (toggleBar)="sidebar.toggle()"></app-sidenav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+ <app-header (toggleBar)="sidebar.toggle()"></app-header>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

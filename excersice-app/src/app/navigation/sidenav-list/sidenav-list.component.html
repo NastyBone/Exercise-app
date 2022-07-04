@@ -1,0 +1,24 @@
+<mat-nav-list fxLayout="column" fxLayoutAlign="space-between ng g " style="height: 100%">
+  <div>
+    <a routerLink="/signup" mat-list-item (click)="toggleSideBar()" *ngIf="!isAuth">
+      <mat-icon>how_to_reg</mat-icon>
+      <span class="sidenav-button-span"> Sign Up </span>
+    </a>
+    <a routerLink="/login" mat-list-item (click)="toggleSideBar()" *ngIf="!isAuth">
+      <mat-icon>login</mat-icon>
+      <span class="sidenav-button-span">Login</span></a
+    >
+    <a routerLink="/training" mat-list-item (click)="toggleSideBar()" *ngIf="isAuth">
+      <mat-icon>fitness_center</mat-icon>
+      <span class="sidenav-button-span">Training</span></a
+    >
+  </div>
+  <div >
+    <mat-list-item fxFlexAlign="flex-end" *ngIf="isAuth">
+      <button mat-icon-button (click)="onLogout()">
+        <mat-icon>logout</mat-icon>
+        <span class="sidenav-button-span">Logout</span>
+      </button>
+    </mat-list-item>
+  </div>
+</mat-nav-list>

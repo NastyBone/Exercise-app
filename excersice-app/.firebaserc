@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "please-cantv-dont-go": {
+      "hosting": {
+        "excersice-app": [
+          "please-cantv-dont-go"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "please-cantv-dont-go"
+  }
+}
