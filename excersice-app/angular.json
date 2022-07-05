@@ -114,5 +114,7 @@
       }
     }
   },
-  "defaultProject": "excersice-app"
+  "cli": {
+    "analytics": "5cb7449b-136d-48e9-b62e-a73685d4e093"
+  }
 }

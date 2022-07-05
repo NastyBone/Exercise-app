@@ -4,9 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
-
-import 'moment/locale/ja';
-import 'moment/locale/fr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { DialogComponent } from './dialog/dialog.component';
@@ -19,7 +17,8 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AuthModule } from './auth/auth.module';
 import { SharedModule } from './shared/shared.module';
-
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './store/app.reducer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +35,7 @@ import { SharedModule } from './shared/shared.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
@@ -45,6 +45,7 @@ import { SharedModule } from './shared/shared.module';
     AngularFirestoreModule,
     AuthModule,
     SharedModule,
+    StoreModule.forRoot(reducers),
   ],
   providers: [
     {

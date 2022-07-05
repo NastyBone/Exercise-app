@@ -7,8 +7,11 @@ const routes: Routes = [
   { path: '', component: WelcomeComponent },
   {
     path: 'training',
+    // component: TrainingComponent,
     loadChildren: () =>
-      import('./training/training.module').then((e) => e.TrainingModule),
+      import('./training/training.module').then((e) => {
+        return e.TrainingModule;
+      }),
     canLoad: [AuthGuard],
   },
 ];

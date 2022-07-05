@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -31,9 +31,12 @@ export class UiService {
       case 'auth/user-not-found':
         message = 'Email not found';
         break;
+      case 'auth/network-request-failed':
+        message = 'No internet connection';
+        break;
       default:
         message = 'Unknow Error';
     }
-    this.snackBar.open(code, action, { duration: duration });
+    this.snackBar.open(message, action, { duration: duration });
   }
 }

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TimeoutConfig } from 'rxjs';
 import { DialogComponent } from 'src/app/dialog/dialog.component';
 import { TrainingService } from '../training.service';
-
+import * as fromTraining from '../store/training.reducer';
+import { Store } from '@ngrx/store';
+//import { Exercise } from '../exercise.model';
+import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-current-training',
   templateUrl: './current-training.component.html',
@@ -12,7 +14,8 @@ import { TrainingService } from '../training.service';
 export class CurrentTrainingComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
-    private trainingService: TrainingService
+    private trainingService: TrainingService,
+    private store: Store<fromTraining.State>
   ) {}
 
   progress: number = 0;
@@ -23,23 +26,28 @@ export class CurrentTrainingComponent implements OnInit {
   }
 
   currentTimer() {
-    const currentExercise = this.trainingService.getCurrentExercise();
-    let step;
+    this.store
+      .select(fromTraining.getActiveTraining)
+      .pipe(take(1))
+      .subscribe((currentExercise) => {
+        // currentExercise = this.trainingService.getCurrentExercise();
+        let step;
 
-    if (currentExercise.duration) {
-      step = currentExercise.duration * 10;
-    } else {
-      step = 1000;
-    }
-    console.log(currentExercise.duration, currentExercise.name, step);
+        if (currentExercise?.duration) {
+          step = currentExercise.duration * 10;
+        } else {
+          step = 1000;
+        }
+        // console.log(currentExercise.duration, currentExercise.name, step);
 
-    this.timer = setInterval(() => {
-      this.progress = this.progress + 5;
-      if (this.progress >= 100) {
-        this.trainingService.completedExercise();
-        clearInterval(this.timer);
-      }
-    }, step);
+        this.timer = setInterval(() => {
+          this.progress = this.progress + 1;
+          if (this.progress >= 100) {
+            this.trainingService.completedExercise();
+            clearInterval(this.timer);
+          }
+        }, step);
+      });
   }
   stopTimer() {
     clearInterval(this.timer);

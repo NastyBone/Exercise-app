@@ -9,14 +9,20 @@ import {
   UrlSegment,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { AuthService } from './auth.service';
+import * as fromRoot from '../store/app.reducer';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate, CanLoad {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    // private authService: AuthService,
+    //private router: Router,
+    private store: Store<fromRoot.State>
+  ) {}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -25,12 +31,13 @@ export class AuthGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.authService.isAuth()) {
-      return true;
-    } else {
-      this.router.navigate(['/login']);
-      return false;
-    }
+    // if (this.authService.isAuth()) {
+    //   return true;
+    // } else {
+    //   this.router.navigate(['/login']);
+    //   return false;
+    // }
+    return this.store.select(fromRoot.getisAuthenticated).pipe(take(1));
   }
   canLoad(
     route: Route,
@@ -40,11 +47,13 @@ export class AuthGuard implements CanActivate, CanLoad {
     | UrlTree
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
-    if (this.authService.isAuth()) {
-      return true;
-    } else {
-      this.router.navigate(['/login']);
-      return false;
-    }
+    return this.store.select(fromRoot.getisAuthenticated).pipe(take(1));
+
+    // if (this.authService.isAuth()) {
+    //   return true;
+    // } else {
+    //   this.router.navigate(['/login']);
+    //   return false;
+    // }
   }
 }

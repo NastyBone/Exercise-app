@@ -5,8 +5,11 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+//import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import * as fromRoot from '../../store/app.reducer';
 
 @Component({
   selector: 'app-sidenav-list',
@@ -15,22 +18,26 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class SidenavListComponent implements OnInit, OnDestroy {
   @Output() toggleBar = new EventEmitter();
-  isAuth: boolean = false;
-  authSubscription!: Subscription;
+  isAuth$!: Observable<boolean>; //boolean = false;
+  //authSubscription!: Subscription;
 
   toggleSideBar() {
     this.toggleBar.emit();
   }
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private store: Store<fromRoot.State>
+  ) {}
 
   ngOnInit(): void {
-    this.authSubscription = this.authService.authChange.subscribe((data) => {
-      this.isAuth = data;
-    });
+    // this.authSubscription = this.authService.authChange.subscribe((data) => {
+    //   this.isAuth = data;
+    // });
+    this.isAuth$ = this.store.select(fromRoot.getisAuthenticated);
   }
 
   ngOnDestroy(): void {
-    if (this.authSubscription) this.authSubscription.unsubscribe();
+    //if (this.authSubscription) this.authSubscription.unsubscribe();
   }
 
   onLogout() {
